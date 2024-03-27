@@ -21,7 +21,7 @@ export const run_query = async (query: string, values: any) => {
   }
 }
 
-export const run_insert = async (sql: string, values: any) => {
+export const run_insertrecord = async (sql: string, values: any) => {
   try {
     const sequelize = new Sequelize(config.database, config.user, config.password, {
       host: config.host,
@@ -41,7 +41,7 @@ export const run_insert = async (sql: string, values: any) => {
   }
 }
 
-export const run_update = async (sql: string, values: any) => {
+export const run_updaterecord = async (sql: string, values: any) => {
   try {
     const sequelize = new Sequelize(config.database, config.user, config.password, {
       host: config.host,
@@ -61,7 +61,7 @@ export const run_update = async (sql: string, values: any) => {
   }
 }
 
-export const run_delete = async (sql: string, values: any) => {
+export const run_deleterecord = async (sql: string, values: any) => {
   try {
     const sequelize = new Sequelize(config.database, config.user, config.password, {
       host: config.host,
