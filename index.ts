@@ -1,5 +1,5 @@
 import Koa from "koa";
-import /*Router, */ { RouterContext } from "koa-router";
+import  { RouterContext } from "koa-router";
 import logger from "koa-logger";
 import json from "koa-json";
 import passport from "koa-passport";
@@ -32,8 +32,7 @@ app.use(json());
 app.use(passport.initialize());
 //app.use(router.routes());
 app.use(cors());
-app.use(cats.routes());
-app.use(special.routes());
+
 app.use(users.routes());
 app.use(async (ctx: RouterContext, next: any) => {
   try {
