@@ -3,10 +3,9 @@ import  { RouterContext } from "koa-router";
 import logger from "koa-logger";
 import json from "koa-json";
 import passport from "koa-passport";
-
 import cors from '@koa/cors';
 
-import { router as cats } from "./routes/dogs";
+import { router as dogs } from "./routes/dogs";
 import { router as special } from './routes/special';
 import { router as users } from './routes/users';
 
