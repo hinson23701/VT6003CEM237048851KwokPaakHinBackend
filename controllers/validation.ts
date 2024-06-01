@@ -1,6 +1,6 @@
 import { Validator, ValidationError } from 'jsonschema';
 import { RouterContext } from 'koa-router';
-import { article } from '../schema/article.schema';
+
 import { user } from '../schema/user.schema';
 
 const v = new Validator()
