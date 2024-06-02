@@ -3,6 +3,7 @@ import bodyParser from "koa-bodyparser";
 import * as model from "../models/dogs";
 import { basicAuth } from "../controllers/authentication";
 import { validateDog } from "../controllers/validation";
+import * as msgs from "../models/msgs";
 
 
 const router = new Router({ prefix: "/api/v1/dogs" });
@@ -13,7 +14,7 @@ const getAll = async (ctx: RouterContext, next: any) => {
   const { limit = 100, page = 1, order = "dateCreated", direction = 'ASC' } = ctx.request.query;
   const parsedLimit = parseInt(limit as string, 10);
   const parsedPage = parseInt(page as string, 10);
-  const result = await model.getDogs(parsedLimit, parsedPage, order, direction);
+  const result = await model.getAllDogs(parsedLimit, parsedPage, order, direction);
   if (result.length) {
     const body: Dog[] = result.map((dog: any) => {
       const { id = 0, name = "", breed = "", age = 0, imageUrl = "", description = "" }: Partial<Dog> = dog;
@@ -71,9 +72,46 @@ const deleteDog = async (ctx: RouterContext, next: any) => {
   await next();
 };
 
+//methods for message icon
+async function listMsg(ctx: RouterContext, next: any){
+   const id = parseInt(ctx.params.id);
+   const result = await msgs.getMsg(id);
+  ctx.body = result ? result : 0;
+  await next();
+}
+
+async function addMsg(ctx: RouterContext, next: any){
+  const id = parseInt(ctx.params.id);
+  const user = ctx.state.user;
+  const uid:number =user.user.id;
+  const uname = user.user.username;
+  let msg:any = ctx.request.body;
+  console.log('ctx.request.body ',ctx.request.body)
+  console.log('..msg ',msg)
+  const result:any= await msgs.add_Msg(id, uid,uname, msg);
+  ctx.body = result.affectedRows ? {message: "added"} : {message: "error"};
+  await next();
+}
+
+async function rmMsg(ctx: RouterContext, next: any){
+  // const uid = ctx.state.user.id;
+// only admin can del article comment
+ let b:any = ctx.request.body;
+
+ const id = parseInt(ctx.params.id); 
+  const result:any = await msgs.removeMsg(id, b);
+  ctx.body = result.affectedRows ? {message: "removed"} : {message: "error"}; 
+  await next();
+}
+
 router.get("/", getAll);
 router.post("/", basicAuth, bodyParser(), validateDog, createDog);
 router.get("/:id([0-9]{1,})", getById);
 router.put("/:id([0-9]{1,})", basicAuth, bodyParser(),validateDog, updateDog);
 router.del("/:id([0-9]{1,})", deleteDog);
+
+
+router.get('/:id([0-9]{1,})/msg', listMsg);
+router.post('/:id([0-9]{1,})/msg', bodyParser(), basicAuth, addMsg);
+router.del('/:id([0-9]{1,})/msg', basicAuth, bodyParser(),rmMsg);
 export { router };
