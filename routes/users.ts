@@ -4,7 +4,7 @@ import * as model from "../models/user";
 import { basicAuth } from "../controllers/authentication";
 import { validateUser } from "../controllers/validation";
 
-
+const prefix = '/api/v1/users';
 const router = new Router({ prefix: '/api/v1/users' });
 const doSearch = async(ctx: any, next: any) =>{
 
@@ -55,6 +55,22 @@ const doSearch = async(ctx: any, next: any) =>{
     }
    await next();
   }
+
+ const login = async(ctx: any, next: any) =>{
+  // return any details needed by the client
+    const user = ctx.state.user;
+ // const { id, username, email, avatarurl, role } =ctx.state.user;
+    const id:number =user.user.id;
+    const username:string =user.user.username;
+    const email:string =user.user.email;
+    const avatarurl:string =user.user.avatarurl;
+    const role:string =user.user.userRole;
+    const links = {
+    self: `http://${ctx.host}${prefix}/${id}`,
+  };
+  ctx.body = { id, username, email, avatarurl, role, links };
+}
+
 
 const findByUsername = async (ctx: RouterContext, next: any) => {
   const username = ctx.params.username;
@@ -135,6 +151,6 @@ router.get('/', basicAuth, doSearch);
 router.post('/', bodyParser(),validateUser, addUser);
 router.put('/:id([0-9]{1,})', basicAuth, bodyParser(),validateUser, updateUser);
 router.delete('/:id([0-9]{1,})', basicAuth, deleteUser);
-
+router.post('/login', basicAuth, login);
 export { router };
 

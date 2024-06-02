@@ -1,6 +1,6 @@
 import { Validator, ValidationError } from 'jsonschema';
 import { RouterContext } from 'koa-router';
-
+import { dog } from "../schema/dog.schema"
 import { user } from '../schema/user.schema';
 
 const v = new Validator()
@@ -12,7 +12,7 @@ export const validateDog = async (ctx: RouterContext, next: any) => {
   }
   const body = ctx.request.body;
   try {
-    v.validate(body, article, validationOptions)
+    v.validate(body, dog, validationOptions)
     await next()
   } catch (error) {
     if (error instanceof ValidationError) {
