@@ -1,4 +1,5 @@
-import { db } from '../helpers/database';
+import * as db from '../helpers/database';
+
 
 export const getDogById = async (id: any) => {
   let query = 'SELECT * FROM dogs WHERE ID = ?';

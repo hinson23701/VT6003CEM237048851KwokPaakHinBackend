@@ -1,5 +1,5 @@
 import Koa from "koa";
-import router, { RouterContext } from "koa-router";
+import Router, { RouterContext }  from "koa-router";
 import logger from "koa-logger";
 import json from "koa-json";
 import passport from "koa-passport";
@@ -10,18 +10,20 @@ import { router as special } from './routes/special';
 import { router as users } from './routes/users';
 import { router as upload } from './routes/upload';
 
-import serve from 'koa-static-folder';
+
+import serve from 'koa-static';
+
 
 const app: Koa = new Koa();
-//const router: Router = new Router();
+const router: Router = new Router();
 
-/*const welcomeAPI = async (ctx: RouterContext, next: any) => {
+const welcomeAPI = async (ctx: RouterContext, next: any) => {
   ctx.body = { message: "Welcome to The Dog Shelter API!" };
   await next();
 }
 
 //End-point
-router.get('/api/v1', welcomeAPI);*/
+router.get('/api/v1', welcomeAPI);
 app.use(cors());
 
 // For Document:
