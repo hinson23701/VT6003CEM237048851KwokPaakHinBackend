@@ -6,6 +6,55 @@ import { validateUser } from "../controllers/validation";
 
 
 const router = new Router({ prefix: '/api/v1/users' });
+const doSearch = async(ctx: any, next: any) =>{
+
+    let { limit = 50, page = 1, fields = "", q = "" } = ctx.request.query;
+    // ensure params are integers
+    limit = parseInt(limit);
+    page = parseInt(page);
+    // validate values to ensure they are sensible
+    limit = limit > 200 ? 200 : limit;
+    limit = limit < 1 ? 10 : limit;
+    page = page < 1 ? 1 : page;
+    let result:any;
+    // search by single field and field contents
+    // need to validate q input
+   try{
+    if (q !== "") 
+      result = await model.getSearch(fields, q);     
+    else
+    {console.log('get all')
+      result = await model.getAll(limit, page);
+     console.log(result)
+    }
+
+    if (result.length) {
+      if (fields !== "") {
+        // first ensure the fields are contained in an array
+        // need this since a single field in the query is passed as a string
+        console.log('fields'+fields)
+        if (!Array.isArray(fields)) {
+          fields = [fields];
+        }
+        // then filter each row in the array of results
+        // by only including the specified fields
+        result = result.map((record: any) => {
+          let partial: any = {};
+          for (let field of fields) {
+            partial[field] = record[field];
+          }
+          return partial;
+        });
+      }
+      console.log(result)
+      ctx.body = result;
+    }
+  }
+    catch(error) {
+      return error
+    }
+   await next();
+  }
 
 const findByUsername = async (ctx: RouterContext, next: any) => {
   const username = ctx.params.username;
@@ -82,7 +131,7 @@ const deleteUser = async (ctx: RouterContext, next: any) => {
 };
 
 router.get('/:username', findByUsername);
-router.get('/', getAllUsers);
+router.get('/', basicAuth, doSearch);
 router.post('/', bodyParser(),validateUser, addUser);
 router.put('/:id([0-9]{1,})', basicAuth, bodyParser(),validateUser, updateUser);
 router.delete('/:id([0-9]{1,})', basicAuth, deleteUser);
