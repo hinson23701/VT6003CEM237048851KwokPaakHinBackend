@@ -84,7 +84,7 @@ const addUser = async(ctx: any, next: any) =>{
     let email:any = body.email;
     let role:string = 'user';
     let secretkey:string = body.actiCode;
-    let secretList:string[]= ["mongkok_123456789", "mongkok_987654321","shatin_123456789","shatin_987654321","chaiwan_123456789","chaiwan_987654321" ]
+    let secretList:string[]= ["DogShelter_123456789", "DogShelter_098765432" ]
      if(secretkey)
      {for(let i=0;i<secretList.length;i++)
        if(secretkey==secretList[i])
