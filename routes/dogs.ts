@@ -22,7 +22,7 @@ const getAll = async (ctx: RouterContext, next: any) => {
       const links = {
         self: `http://${ctx.host}/api/v1/dogs/${dog.id}`,
       };
-      return { id, name, breed, age, imageUrl, description, links };
+      return { id, name, breed, age, imageUrl, description ,links};
     });
     ctx.body = body;
   }
@@ -32,12 +32,12 @@ const getAll = async (ctx: RouterContext, next: any) => {
 const createDog = async (ctx: RouterContext, next: any) => {
   const body = ctx.request.body;
   let result = await model.addDog(body);
-  if (result.status === 201) {
+  if(result.status==201) {
     ctx.status = 201;
     ctx.body = body;
   } else {
     ctx.status = 500;
-    ctx.body = { err: "Failed to insert data" };
+    ctx.body = {err: "insert data failed"};
   }
   await next();
 };
@@ -134,7 +134,7 @@ async function rmMsg(ctx: RouterContext, next: any){
 }
 
 router.get("/", getAll);
-router.post("/", basicAuth, bodyParser(), validateDog, createDog);
+router.post("/", basicAuth, bodyParser(), createDog);
 router.get("/:id([0-9]{1,})", getById);
 router.put("/:id([0-9]{1,})", basicAuth, bodyParser(),validateDog, updateDog);
 router.del("/:id([0-9]{1,})", deleteDog);

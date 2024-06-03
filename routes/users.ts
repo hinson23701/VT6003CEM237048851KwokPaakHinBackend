@@ -98,18 +98,18 @@ const addUser = async(ctx: any, next: any) =>{
     let username:string= body.username;
     let password:string = body.password;
     let email:any = body.email;
-    let role:string = 'user';
+    let userRole:string = 'user';
     let secretkey:string = body.actiCode;
     let secretList:string[]= ["DogShelter_123456789", "DogShelter_098765432" ]
      if(secretkey)
      {for(let i=0;i<secretList.length;i++)
        if(secretkey==secretList[i])
-       {role='admin'
+       {userRole='admin'
         break;
        }
      }
-    console.log("role ", role)
-    let newUser = {username: username, password: password, email: email, avatarurl: avatarurl, role: role};
+    console.log("role ", userRole)
+    let newUser = {username: username, password: password, email: email, avatarurl: avatarurl, userRole: userRole};
 
   let result = await model.add(newUser);
   if (result) {

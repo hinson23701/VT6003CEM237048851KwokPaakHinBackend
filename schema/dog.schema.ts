@@ -23,7 +23,7 @@ export const dog = {
       "type": "integer",
       "minimum": 0
     },
-    "sex": {
+    "gender": {
       "description": "Sex of the dog",
       "type": "string"
     },
@@ -45,5 +45,5 @@ export const dog = {
       "type": "boolean"
     }
   },
-  "required": ["id", "name", "breed", "age", "sex", "size", "available"]
+  "required": ["id", "name"]
 };

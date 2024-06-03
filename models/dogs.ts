@@ -26,7 +26,7 @@ export const addDog = async (dog: any) => {
   param = param.slice(0, -1);
   let query = `INSERT INTO dogs (${key}) VALUES (${param})`;
   try {
-    await db.run_insert(query, values);
+    await db.run_query(query, values);
     return { status: 201 };
   } catch (err: any) {
     return err;
