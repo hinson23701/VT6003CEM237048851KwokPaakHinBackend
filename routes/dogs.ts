@@ -18,11 +18,11 @@ const getAll = async (ctx: RouterContext, next: any) => {
   const result = await model.getAllDogs(parsedLimit, parsedPage, order, direction);
   if (result.length) {
     const body: Dog[] = result.map((dog: any) => {
-      const { id = 0, name = "", breed = "", age = 0, imageUrl = "", description = "" }: Partial<Dog> = dog;
+      const { ID = '', name = "", breed = "", age = 0, imageUrl = "", description = "" }: Partial<Dog> = dog;
       const links = {
-        self: `http://${ctx.host}/api/v1/dogs/${dog.id}`,
+        self: `http://${ctx.host}/api/v1/dogs/${dog.ID}`,
       };
-      return { id, name, breed, age, imageUrl, description ,links};
+      return { ID, name, breed, age, imageUrl, description ,links};
     });
     ctx.body = body;
   }
