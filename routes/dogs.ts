@@ -136,7 +136,7 @@ async function rmMsg(ctx: RouterContext, next: any){
 router.get("/", getAll);
 router.post("/", basicAuth, bodyParser(), createDog);
 router.get("/:id([0-9]{1,})", getById);
-router.put("/:id([0-9]{1,})", basicAuth, bodyParser(),validateDog, updateDog);
+router.put("/:id([0-9]{1,})", basicAuth, bodyParser(), updateDog);
 router.del("/:id([0-9]{1,})", deleteDog);
 
 router.get('/fav', basicAuth, userFav);

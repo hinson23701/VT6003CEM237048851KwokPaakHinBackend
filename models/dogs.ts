@@ -41,7 +41,7 @@ export const updateDog = async (dog: any, id: any) => {
     updateString += keys[i] + "='" + values[i] + "',";
   }
   updateString = updateString.slice(0, -1);
-  let query = `UPDATE dogs SET ${updateString} WHERE ID=${id} RETURNING *;`;
+  let query = `UPDATE dogs SET ${updateString} WHERE ID=${id} ;`;
   try {
     await db.run_query(query, values);
     return { status: 201 };
