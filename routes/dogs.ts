@@ -21,7 +21,8 @@ const getAll = async (ctx: RouterContext, next: any) => {
       const { ID = '', name = "", breed = "", age = 0, imageurl = "", description = "" ,a_status = ""}: Partial<Dog> = dog;
       const links = {
         self: `http://${ctx.host}/api/v1/dogs/${dog.ID}`,
-        fav: `https://7bbf3ab4-2ff8-4457-b588-14e166500320-00-hl6c2fccggxp.sisko.replit.dev:3000/api/v1/dogs/${dog.ID}/fav`
+        fav: `https://7bbf3ab4-2ff8-4457-b588-14e166500320-00-hl6c2fccggxp.sisko.replit.dev:3000/api/v1/dogs/${dog.ID}/fav`,
+        msg: `https://7bbf3ab4-2ff8-4457-b588-14e166500320-00-hl6c2fccggxp.sisko.replit.dev:3000/api/v1/dogs/${dog.ID}/msg`
       };
       return { ID, name, breed, age, imageurl, description ,a_status,links};
     });
@@ -113,7 +114,7 @@ async function listMsg(ctx: RouterContext, next: any){
 async function addMsg(ctx: RouterContext, next: any){
   const id = parseInt(ctx.params.id);
   const user = ctx.state.user;
-  const userid:number =user.user.id;
+  const userid:number =user.user.ID;
   const uname = user.user.username;
   let msg:any = ctx.request.body;
   console.log('ctx.request.body ',ctx.request.body)
