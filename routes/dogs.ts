@@ -21,6 +21,7 @@ const getAll = async (ctx: RouterContext, next: any) => {
       const { ID = '', name = "", breed = "", age = 0, imageurl = "", description = "" ,a_status = ""}: Partial<Dog> = dog;
       const links = {
         self: `http://${ctx.host}/api/v1/dogs/${dog.ID}`,
+        fav: `https://7bbf3ab4-2ff8-4457-b588-14e166500320-00-hl6c2fccggxp.sisko.replit.dev:3000/api/v1/dogs/${dog.ID}/fav`
       };
       return { ID, name, breed, age, imageurl, description ,a_status,links};
     });
@@ -76,8 +77,8 @@ const deleteDog = async (ctx: RouterContext, next: any) => {
 async function userFav(ctx: RouterContext, next: any) {
   // For you TODO: add error handling and error response code
   const user = ctx.state.user;
-  const uid:number =user.user.id;
-  const result = await favs.listFav(uid);
+  const userid:number =user.user.ID;
+  const result = await favs.listFav(userid);
   ctx.body = result ? result : 0;
   await next();
 }
@@ -85,7 +86,7 @@ async function userFav(ctx: RouterContext, next: any) {
 async function postFav(ctx: RouterContext, next: any) {
   // For you TODO: add error handling and error response code
   const user = ctx.state.user;
-  const uid:number =user.user.id;
+  const uid:number =user.user.ID;
   const id = parseInt(ctx.params.id);
   const result:any = await favs.addFav(id, uid);
   ctx.body = result.affectedRows ? {message: "added",userid:result.userid} : {message: "error"};
@@ -95,9 +96,9 @@ async function postFav(ctx: RouterContext, next: any) {
 async function rmFav(ctx: RouterContext, next: any) {
   // For you TODO: add error handling and error response code
   const user = ctx.state.user;
-  const uid:number =user.user.id;
+  const userid:number =user.ID;
   const id = parseInt(ctx.params.id);
-  const result:any = await favs.removeFav(id, uid);
+  const result:any = await favs.removeFav(id, userid);
   ctx.body = result.affectedRows ? {message: "removed"} : {message: "error"};
   await next();
 }
@@ -112,12 +113,12 @@ async function listMsg(ctx: RouterContext, next: any){
 async function addMsg(ctx: RouterContext, next: any){
   const id = parseInt(ctx.params.id);
   const user = ctx.state.user;
-  const uid:number =user.user.id;
+  const userid:number =user.user.id;
   const uname = user.user.username;
   let msg:any = ctx.request.body;
   console.log('ctx.request.body ',ctx.request.body)
   console.log('..msg ',msg)
-  const result:any= await msgs.add_Msg(id, uid,uname, msg);
+  const result:any= await msgs.add_Msg(id, userid,uname, msg);
   ctx.body = result.affectedRows ? {message: "added"} : {message: "error"};
   await next();
 }
