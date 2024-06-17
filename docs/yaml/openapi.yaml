@@ -16,7 +16,7 @@ tags:
   - name: Users
     description: API endpoints for user management.
   - name: dogs
-    description: Access and perform CRUD operations on dog entries.
+    description: Access and perform CRUD operations on dog entries(including favs msgs).
   - name: Login
     description: login user account
 
@@ -271,3 +271,95 @@ tags:
                             description: Dogs created
                           '400':
                             description: Bad request
+
+                          
+                            
+                  /dogs/{id}/fav:
+                    parameters:
+                    - in: path
+                      name: id
+                      schema:
+                        type: integer
+                      required: true
+                      description: Numeric id of the dog
+                    get:
+                     tags:
+                       - Dogs
+                     description:
+                       Get favourite dog list by user id.
+                     responses:
+                       '200':
+                         description: View of an favourite dog record.
+                       '404':
+                         description: Dog was not found in the DB.
+                    post:  
+                       tags:
+                        - dogs
+                       description: create a favouite dog into the list
+                       requestBody:
+                         description: A new dog data
+                         required: true
+                         content:
+                           application/json:
+                             schema:
+                               $ref: ./dog.json#/definitions/dog
+                       responses:
+                         '201':
+                           description: Dogs created
+                         '400':
+                           description: Bad request
+                           
+                  /dogs/{id}/msg:
+                            parameters:
+                            - in: path
+                              name: id
+                              schema:
+                                type: integer
+                              required: true
+                              description: Numeric id of the dog
+                            get:
+                             tags:
+                               - Dogs
+                             description:
+                               Get message by user id.
+                             responses:
+                               '200':
+                                 description: View of an favourite dog record.
+                               '404':
+                                 description: Dog was not found in the DB.
+                            post:  
+                               tags:
+                                - dogs
+                               description: create a message
+                               requestBody:
+                                 description: A new message text
+                                 required: true
+                                 content:
+                                   application/json:
+                                     schema:
+                                       $ref: ./dog.json#/definitions/dog
+                               responses:
+                                 '201':
+                                   description: message created
+                                 '400':
+                                   description: Bad request
+                                   
+                            delete:
+                              tags:
+                                - dogs
+                              description:
+                                delete message by user id.
+                              responses:
+                                '200':
+                                  description: deleted message.
+                                '404':
+                                  description: can't delete the message 
+                         
+                    
+                            
+                                            
+                             
+
+                                            
+
+                                
